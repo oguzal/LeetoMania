@@ -6,14 +6,15 @@ export class FetchData extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { forecasts: [], loading: true };
+        //    this.state = { forecasts: [], loading: true };
+        this.state = { result: {}, loading: true };
     }
 
     componentDidMount() {
         this.populateWeatherData();
     }
 
-    static renderForecastsTable(forecasts) {
+    static renderForecastsTable(result) {
         return (
             <table className="table table-striped" aria-labelledby="tableLabel">
                 <thead>
@@ -25,14 +26,20 @@ export class FetchData extends Component {
                     </tr>
                 </thead>
                 <tbody>
-                    {forecasts.map(forecast =>
-                        <tr key={forecast.date}>
-                            <td>{forecast.date}</td>
-                            <td>{forecast.temperatureC}</td>
-                            <td>{forecast.temperatureF}</td>
-                            <td>{forecast.summary}</td>
-                        </tr>
-                    )}
+                    <tr>
+                        <td>{result.current.last_updated} </td>
+                        <td>{result.current.temp_c} </td>
+                        <td>{result.current.temp_f} </td>
+                        <td> </td>
+                    </tr>
+                    {/*{forecasts.map(forecast =>*/}
+                    {/*    <tr key={forecast.date}>*/}
+                    {/*        <td>{forecast.date}</td>*/}
+                    {/*        <td>{forecast.temperatureC}</td>*/}
+                    {/*        <td>{forecast.temperatureF}</td>*/}
+                    {/*        <td>{forecast.summary}</td>*/}
+                    {/*    </tr>*/}
+                    {/*)}*/}
                 </tbody>
             </table>
         );
@@ -41,7 +48,7 @@ export class FetchData extends Component {
     render() {
         let contents = this.state.loading
             ? <p><em>Loading...</em></p>
-            : FetchData.renderForecastsTable(this.state.forecasts);
+            : FetchData.renderForecastsTable(this.state.result);
 
         return (
             <div>
@@ -55,11 +62,11 @@ export class FetchData extends Component {
     async populateWeatherData() {
         const token = await authService.getAccessToken();
         const response = await fetch('weatherforecast', {
-            headers: {}
-            //        headers: !token ? {} :            { 'Authorization': `Bearer ${token}` }
+//            headers: {}
+                    headers: !token ? {} :            { 'Authorization': `Bearer ${token}` }
         });
         const data = await response.json();
-        console.log("data:"+data);
-        this.setState({ forecasts: data, loading: false });
+        console.log("data:" + data);
+        this.setState({ result: data, loading: false });
     }
 }
