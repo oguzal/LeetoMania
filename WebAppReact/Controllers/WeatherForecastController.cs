@@ -50,6 +50,9 @@ namespace WebAppReact.Controllers
 //        https://api.weatherapi.com/v1/forecast.json?q=08807&days=14&key=e34a69a06b1a4af796325047233009
             var resultRaw =await  _httpClient.GetAsync(_baseUrl + _forecastExt + "?q=" + input +"&days=14"+ "&key=" + _apiKey);
             var result=  resultRaw.Content.ReadFromJsonAsync<dynamic>();
+
+            var file = new FileInfo("test.json");
+            file.OpenRead();
             return result.Result;
         }
     }
