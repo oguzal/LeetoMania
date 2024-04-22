@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LeetPub
 {
-   public  class ValidPalindrome125
+    public class ValidPalindrome125
     {
         public bool IsPalindrome(string s)
         {
@@ -15,14 +15,14 @@ namespace LeetPub
             var r = s.Length - 1;
             while (l < r)
             {
-                while (l<s.Length && !isAlphaNum(s[l]))
+                while (r > l && l < s.Length && !isAlphaNum(s[l]))
                     l++;
-                while (r>l && r>=0 && !isAlphaNum(s[r]))
+                while (r > l && r >= 0 && !isAlphaNum(s[r]))
                     r--;
-                if (l == s.Length) return true;
+                if (l == r || l == s.Length) return true;
 
                 if (char.ToUpper(s[l]) != char.ToUpper(s[r]))
-                    return false; 
+                    return false;
                 l++;
                 r--;
             }
@@ -33,7 +33,7 @@ namespace LeetPub
 
         public bool isAlphaNum(char c)
         {
-            return char.IsLetter(c)||char.IsDigit(c) ;
+            return char.IsLetter(c) || char.IsDigit(c);
         }
     }
 }
